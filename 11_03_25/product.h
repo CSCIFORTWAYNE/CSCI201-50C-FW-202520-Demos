@@ -61,7 +61,7 @@ public:
     void setSize(sizeType s);
     void setFlavors(flavType f[], int numF);
     double calculatePrice();
-    std::string toString() const;
+    std::string tostring() const;
     static std::string flavToStr[NUM_FLAV];
 
 private:

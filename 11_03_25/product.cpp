@@ -174,12 +174,12 @@ double drink::calculatePrice()
     return price;
 }
 
-std::string drink::toString() const
+std::string drink::tostring() const
 {
     std::ostringstream out;
     out << product::tostring();
-    out << " Is Coffee? ";
-    out << " Is Hot? ";
+    out << " Is Coffee? " << (coffee ? "Yes" : "No");
+    out << " Is Hot? " << (hot ? "Yes" : "No");
     out << " Size: ";
     out << " Flavors: " << getFlavors() << " ";
     return out.str();
@@ -239,7 +239,7 @@ void iceCream::scoopPricing()
     }
 }
 
-std::string flavors[24] = {
+std::string iceCream::flavors[24] = {
     "Vanilla",
     "Chocolate",
     "Strawberry",
