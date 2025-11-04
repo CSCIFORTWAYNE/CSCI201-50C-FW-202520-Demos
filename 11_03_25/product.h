@@ -26,7 +26,7 @@ protected:
     int quantity;
 };
 
-class drink : private product
+class drink : public product
 {
 public:
     enum class sizeType
