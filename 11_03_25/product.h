@@ -19,14 +19,14 @@ public:
     void setQuantity(int q);
     std::string tostring() const;
 
-private:
+protected:
     double price;
     std::string description;
     int prodNum;
     int quantity;
 };
 
-class drink : public product
+class drink : private product
 {
 public:
     enum class sizeType
@@ -50,6 +50,8 @@ public:
         MOCHA
     };
     const static int NUM_FLAV = 11;
+    drink(bool c, bool h, sizeType s, flavType f[], int numF);
+    drink(bool c, bool h, sizeType s, flavType f[], int numF, int pn, std::string desc);
     bool isCoffee() const;
     bool isHot() const;
     sizeType getSize() const;
@@ -58,7 +60,7 @@ public:
     void setHot(bool h);
     void setSize(sizeType s);
     void setFlavors(flavType f[], int numF);
-    double getPrice() const;
+    double calculatePrice();
     std::string toString() const;
     static std::string flavToStr[NUM_FLAV];
 

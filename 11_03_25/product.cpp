@@ -58,3 +58,129 @@ std::string product::tostring() const
     out << "Product: " << prodNum << " - " << description << ", $" << price << " QOH-" << quantity;
     return out.str();
 }
+
+std::string drink::flavToStr[NUM_FLAV] = {
+    "Almond",
+    "Apple",
+    "Blueberry",
+    "Butter Pecan",
+    "Caramel",
+    "French Vanilla",
+    "Peach",
+    "Peppermint",
+    "Raspberry",
+    "Strawberry",
+    "Mocha"};
+
+drink::drink(bool c, bool h, sizeType s, flavType f[], int numF, int pn, std::string desc) : product(pn, desc, 2)
+{
+    setCoffee(c);
+    setHot(h);
+    setSize(s);
+    setFlavors(f, numF);
+    calculatePrice();
+}
+drink::drink(bool c, bool h, sizeType s, flavType f[], int numF) : product(23, "drink", 2)
+{
+    setCoffee(c);
+    setHot(h);
+    setSize(s);
+    setFlavors(f, numF);
+    calculatePrice();
+}
+
+bool drink::isCoffee() const
+{
+    return coffee;
+}
+bool drink::isHot() const
+{
+    return hot;
+}
+drink::sizeType drink::getSize() const
+{
+    return size;
+}
+std::string drink::getFlavors() const
+{
+    std::ostringstream out;
+    if (numFlavor > 0)
+    {
+        out << flavToStr[static_cast<int>(flavors[0])];
+        for (int i = 1; i < numFlavor; i++)
+        {
+            out << ", " << flavToStr[static_cast<int>(flavors[i])];
+        }
+    }
+    return out.str();
+}
+void drink::setCoffee(bool c)
+{
+    coffee = c;
+    calculatePrice();
+}
+void drink::setHot(bool h)
+{
+    hot = h;
+    calculatePrice();
+}
+void drink::setSize(sizeType s)
+{
+    size = s;
+    calculatePrice();
+}
+void drink::setFlavors(flavType f[], int numF)
+{
+    if (numF > NUM_FLAV)
+    {
+        numF = NUM_FLAV;
+    }
+    for (int i = 0; i < numF; i++)
+    {
+        flavors[i] = f[i];
+    }
+    numFlavor = numF;
+    calculatePrice();
+}
+double drink::calculatePrice()
+{
+
+    switch (size)
+    {
+    case sizeType::SMALL:
+        price = 2.00;
+        break;
+    case sizeType::MED:
+        price = 3.00;
+        break;
+    case sizeType::LRG:
+        price = 4.00;
+        break;
+    }
+    if (coffee)
+    {
+        price += 2.00;
+    }
+    else
+    {
+        price += 1.00;
+    }
+    if (!hot)
+    {
+        price += 1.00;
+    }
+    price += .5 * numFlavor;
+    // product::setPrice(price);
+    return price;
+}
+
+std::string drink::toString() const
+{
+    std::ostringstream out;
+    out << product::tostring();
+    out << " Is Coffee? ";
+    out << " Is Hot? ";
+    out << " Size: ";
+    out << " Flavors: " << getFlavors() << " ";
+    return out.str();
+}
