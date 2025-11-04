@@ -72,4 +72,50 @@ private:
     int numFlavor;
 };
 
+class iceCream : public product
+{
+public:
+    enum class flavType
+    {
+        VANILLAICECREAM,
+        CHOCOLATEICECREAM,
+        STRAWBERRY,
+        MINT_CHOCOLATE_CHIP,
+        COOKIE_DOUGH,
+        COOKIES_AND_CREAM,
+        BUTTER_PECAN,
+        ROCKY_ROAD,
+        CHOCOLATE_CHIP,
+        MOOSE_TRACKS,
+        CHOCOLATE_FUDGE_BROWNIE,
+        PISTACHIO,
+        RUM_RAISIN,
+        NEAPOLITAN,
+        FRENCH_VANILLA,
+        PEANUT_BUTTER_CUP,
+        BLACK_RASPBERRY,
+        BIRTHDAY_CAKE,
+        CARAMEL_SWIRL,
+        MAPLE_WALNUT,
+        BANANA_SPLIT,
+        TUTTI_FRUTTI,
+        ORANGE_SHERBET,
+        COCONUTICECREAM
+
+    };
+    iceCream(flavType = flavType::VANILLAICECREAM, int = 1);
+    std::string getFlavor() const;
+    int getScoopAmount() const;
+    void setFlavor(flavType);
+    void setScoopAmount(int);
+    std::string tostring() const;
+    void scoopPricing();
+    static std::string flavors[24];
+
+private:
+    flavType flavor;
+    int scoopAmount;
+    static int prodNum;
+};
+
 #endif

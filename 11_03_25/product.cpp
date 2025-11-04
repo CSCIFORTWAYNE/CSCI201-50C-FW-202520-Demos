@@ -184,3 +184,85 @@ std::string drink::toString() const
     out << " Flavors: " << getFlavors() << " ";
     return out.str();
 }
+int iceCream::prodNum = 1;
+iceCream::iceCream(flavType f, int s) : product(900 + prodNum++, "Ice Cream", 2)
+{
+    setFlavor(f);
+    setScoopAmount(s);
+    scoopPricing();
+}
+
+std::string iceCream::getFlavor() const
+{
+    return flavors[static_cast<int>(flavor)];
+}
+
+int iceCream::getScoopAmount() const
+{
+    return scoopAmount;
+}
+
+void iceCream::setFlavor(flavType f)
+{
+    flavor = f;
+}
+
+void iceCream::setScoopAmount(int s)
+{
+    if (s <= 0)
+    {
+        s = 1;
+    }
+    scoopAmount = s;
+}
+
+std::string iceCream::tostring() const
+{
+    std::ostringstream out;
+    out << product::tostring() << std::endl;
+    out << scoopAmount << " scoops of " << getFlavor();
+    return out.str();
+}
+
+void iceCream::scoopPricing()
+{
+    switch (scoopAmount)
+    {
+    case 1:
+        price = 3.0;
+    case 2:
+        price = 4.0;
+    case 3:
+        price = 5.0;
+    default:
+        price = scoopAmount * 1.65;
+    }
+}
+
+std::string flavors[24] = {
+    "Vanilla",
+    "Chocolate",
+    "Strawberry",
+    "Mint Chocolate Chip",
+    "Cookie Dough",
+    "Cookies And Cream",
+    "Butter Pecan",
+    "Rocky Road",
+    "Chocolate Chip",
+    "Moose Tracks",
+    "Chocolate Fudge Brownie",
+    "Pistachio",
+    "Rum Raisin",
+    "Neapolitan",
+    "French Vanilla",
+    "Peanut Butter Cup",
+    "Black Raspberry",
+    "Birthday Cake",
+    "Caramel Swirl",
+    "Maple Walnut",
+    "Banana Split",
+    "Tutti Frutti",
+    "Orange Sherbet",
+    "Coconut"
+
+};
