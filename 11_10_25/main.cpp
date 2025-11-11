@@ -12,9 +12,10 @@ void resetStream();
 int main()
 {
 
-    clockType *clock = nullptr;
-    clockType clocks[10];
-    clock = new clockType[10];
+    // clockType *clock = new clockType[10];
+    clockType **clockList = nullptr;
+    clockType *cList[10];
+
     int *p = nullptr;
     int x = 7;
     p = &x;
@@ -23,13 +24,13 @@ int main()
     p = nullptr;
     // p = new int;
     std::cout << x << std::endl;
-    std::cout << "How many numbers? ";
+    std::cout << "How many numbers and clocks? ";
     std::cin >> x;
     // input validation loop
 
     int *list = new int[x];
     p = list;
-    for (int i = 0; i < 10; i++, p++)
+    for (int i = 0; i < x; i++, p++)
     {
         list[i] = rand() % 100 + 1;
     }
@@ -40,23 +41,30 @@ int main()
     std::cout << p - list << std::endl;
     // std::cout << p[-1] << std::endl;
     // std::cout << list[3] << std::endl;
-
-    timeType time = inputTimeType();
-    int hour = inputHour(time);
-    int min = inputMinuteOrSecond("minutes");
-    int sec = inputMinuteOrSecond("seconds");
-    partType partOfDay = partType::PM;
-    if (time == TWELVE)
+    clockList = new clockType *[x];
+    for (int i = 0; i < x; i++)
     {
-        partOfDay = inputPartOfDay();
-    }
-    clock = new clockType(hour, min, sec, time, partOfDay);
+        timeType time = inputTimeType();
+        int hour = inputHour(time);
+        int min = inputMinuteOrSecond("minutes");
+        int sec = inputMinuteOrSecond("seconds");
+        partType partOfDay = partType::PM;
+        if (time == TWELVE)
+        {
+            partOfDay = inputPartOfDay();
+        }
+        clockList[i] = new clockType(hour, min, sec, time, partOfDay);
 
-    (*clock).printTime();
-    clock->printTime();
+        //(*clock).printTime();
+        // clock->printTime();
+    }
+    for (int i = 0; i < x; i++)
+    {
+        std::cout << clockList[i]->printTime() << std::endl;
+    }
 
     // delete p;
-    delete clock;
+    // delete clock;
     delete[] list;
 
     return 0;
