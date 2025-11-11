@@ -1,5 +1,6 @@
 #include <iostream>
 #include <limits>
+#include <cstdlib>
 #include "clock.h"
 
 timeType inputTimeType();
@@ -10,14 +11,35 @@ void resetStream();
 
 int main()
 {
+
     clockType *clock = nullptr;
+    clockType clocks[10];
+    clock = new clockType[10];
     int *p = nullptr;
     int x = 7;
     p = &x;
     std::cout << *p << std::endl;
     *p = 19;
     p = nullptr;
+    // p = new int;
     std::cout << x << std::endl;
+    std::cout << "How many numbers? ";
+    std::cin >> x;
+    // input validation loop
+
+    int *list = new int[x];
+    p = list;
+    for (int i = 0; i < 10; i++, p++)
+    {
+        list[i] = rand() % 100 + 1;
+    }
+    // p = &list[x];
+    //  p = p + 1;
+    std::cout << *p << std::endl;
+    // std::cout << list[1] << std::endl;
+    std::cout << p - list << std::endl;
+    // std::cout << p[-1] << std::endl;
+    // std::cout << list[3] << std::endl;
 
     timeType time = inputTimeType();
     int hour = inputHour(time);
@@ -32,6 +54,10 @@ int main()
 
     (*clock).printTime();
     clock->printTime();
+
+    // delete p;
+    delete clock;
+    delete[] list;
 
     return 0;
 }
