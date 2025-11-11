@@ -57,7 +57,9 @@ int main()
     for (int i = 0; i < clockSize; i++)
     {
         std::cout << clockList[i]->printTime() << std::endl;
+        delete clockList[i];
     }
+    delete[] clockList;
 
     return 0;
 }
