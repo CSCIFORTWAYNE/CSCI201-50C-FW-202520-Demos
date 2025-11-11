@@ -1,6 +1,7 @@
 #include <iostream>
 #include <limits>
 #include <cstdlib>
+#include <cctype> //has toupper and tolower
 #include "clock.h"
 
 timeType inputTimeType();
@@ -9,40 +10,18 @@ int inputHour(timeType);
 int inputMinuteOrSecond(std::string);
 void resetStream();
 
+// lecture activity M03A pick a class
+// create a main showing a dynamic object
+// and dynamic array using that class
+// submit the code in a cpp or txt file
+
 int main()
 {
-
-    // clockType *clock = new clockType[10];
-    clockType **clockList = nullptr;
-    clockType *cList[10];
-
-    int *p = nullptr;
-    int x = 7;
-    p = &x;
-    std::cout << *p << std::endl;
-    *p = 19;
-    p = nullptr;
-    // p = new int;
-    std::cout << x << std::endl;
-    std::cout << "How many numbers and clocks? ";
-    std::cin >> x;
-    // input validation loop
-
-    int *list = new int[x];
-    p = list;
-    for (int i = 0; i < x; i++, p++)
-    {
-        list[i] = rand() % 100 + 1;
-    }
-    // p = &list[x];
-    //  p = p + 1;
-    std::cout << *p << std::endl;
-    // std::cout << list[1] << std::endl;
-    std::cout << p - list << std::endl;
-    // std::cout << p[-1] << std::endl;
-    // std::cout << list[3] << std::endl;
-    clockList = new clockType *[x];
-    for (int i = 0; i < x; i++)
+    clockType **clockList;
+    char more = 'Y';
+    clockList = new clockType *[1];
+    int clockSize = 0;
+    while (more == 'Y')
     {
         timeType time = inputTimeType();
         int hour = inputHour(time);
@@ -53,19 +32,32 @@ int main()
         {
             partOfDay = inputPartOfDay();
         }
-        clockList[i] = new clockType(hour, min, sec, time, partOfDay);
-
-        //(*clock).printTime();
-        // clock->printTime();
+        clockList[clockSize++] = new clockType(hour, min, sec, time, partOfDay);
+        std::cout << "Do you want another clock? ";
+        std::cin >> more;
+        more = toupper(more);
+        while (more != 'Y' && more != 'N')
+        {
+            std::cout << "Please enter Y or N." << std::endl;
+            std::cout << "Do you want another clock? ";
+            std::cin >> more;
+            more = toupper(more);
+        }
+        if (more == 'Y')
+        {
+            clockType **temp = clockList;
+            clockList = new clockType *[clockSize + 1];
+            for (int i = 0; i < clockSize; i++)
+            {
+                clockList[i] = temp[i];
+            }
+            delete[] temp;
+        }
     }
-    for (int i = 0; i < x; i++)
+    for (int i = 0; i < clockSize; i++)
     {
         std::cout << clockList[i]->printTime() << std::endl;
     }
-
-    // delete p;
-    // delete clock;
-    delete[] list;
 
     return 0;
 }
@@ -177,3 +169,60 @@ void resetStream()
     std::cin.clear();
     std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 }
+
+/* old main
+// clockType *clock = new clockType[10];
+   clockType **clockList = nullptr;
+   clockType *cList[10];
+
+   int *p = nullptr;
+   int x = 7;
+   p = &x;
+   std::cout << *p << std::endl;
+   *p = 19;
+   p = nullptr;
+   // p = new int;
+   std::cout << x << std::endl;
+   std::cout << "How many numbers and clocks? ";
+   std::cin >> x;
+   // input validation loop
+
+   int *list = new int[x];
+   p = list;
+   for (int i = 0; i < x; i++, p++)
+   {
+       list[i] = rand() % 100 + 1;
+   }
+   // p = &list[x];
+   //  p = p + 1;
+   std::cout << *p << std::endl;
+   // std::cout << list[1] << std::endl;
+   std::cout << p - list << std::endl;
+   // std::cout << p[-1] << std::endl;
+   // std::cout << list[3] << std::endl;
+   clockList = new clockType *[x];
+   for (int i = 0; i < x; i++)
+   {
+       timeType time = inputTimeType();
+       int hour = inputHour(time);
+       int min = inputMinuteOrSecond("minutes");
+       int sec = inputMinuteOrSecond("seconds");
+       partType partOfDay = partType::PM;
+       if (time == TWELVE)
+       {
+           partOfDay = inputPartOfDay();
+       }
+       clockList[i] = new clockType(hour, min, sec, time, partOfDay);
+
+       //(*clock).printTime();
+       // clock->printTime();
+   }
+   for (int i = 0; i < x; i++)
+   {
+       std::cout << clockList[i]->printTime() << std::endl;
+   }
+
+   // delete p;
+   // delete clock;
+   delete[] list;
+*/
