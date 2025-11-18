@@ -1,6 +1,7 @@
 #include <iostream>
 #include <algorithm>
 #include "product.h"
+#include "clock.h"
 
 bool inputCoffee();
 bool inputHot();
@@ -10,6 +11,17 @@ bool validateFlavor(std::string flav);
 drink::flavType flavorFromString(std::string flavor);
 void resetStream();
 void printProduct(product *p);
+clockType *makeClock();
+int inputInt(std::string prompt, std::string err, bool (*valid)(int, int, int), int low = 0, int high = 0);
+bool numGT0(int num, int = 0, int = 0);
+bool numInRange(int num, int low, int high);
+bool numGTEQ0(int num, int = 0, int = 0);
+bool numGTEQX(int num, int x, int = 0);
+bool isAorB(int num, int a, int b);
+clockType *makeClock();
+partType inputPartOfDay();
+
+// create a file named input.txt with the inputs for 20 calls to makeClock;
 
 int main()
 {
@@ -22,8 +34,12 @@ int main()
     drink *d = new drink(coffee, hot, size, f, numFlavors);
     printProduct(p);
     printProduct(d);
-    // std::cout << p.tostring() << std::endl;
-    // std::cout << d.tostring() << std::endl;
+    TwentyFourHrClock c(12, 22, 21);
+    TwelveHrClock c2(1, 12, 12, partType::PM);
+    std::cout << c.toString() << std::endl;
+    std::cout << c2.toString() << std::endl;
+    //  std::cout << p.tostring() << std::endl;
+    //  std::cout << d.tostring() << std::endl;
     delete[] f;
     return 0;
 }
@@ -195,4 +211,65 @@ void printProduct(product *p)
 {
     std::cout << p->tostring() << std::endl;
     delete p;
+}
+partType inputPartOfDay()
+{
+    int partInt = -1;
+    std::ostringstream prompt;
+    prompt << "Is it " << std::endl;
+    for (int i = 0; i < 2; i++)
+    {
+        prompt << i + 1 << ". " << partToStr[i] << std::endl;
+    }
+    partInt = inputInt(prompt.str(), "Please enter 1 or 2.", isAorB, 1, 2);
+
+    return parts[partInt - 1];
+}
+
+clockType *makeClock()
+{
+    clockType *clockPtr = nullptr;
+    // timeType time = inputTimeType();
+    int type;
+    std::cout << "Do you want a 12 or 24 hour clock? ";
+    std::cin >> type;
+    std::cout << std::endl;
+    // input validation loop goes here
+    while (!std::cin || (type != 12 && type != 24))
+    {
+
+        if (!std::cin)
+        {
+            resetStream();
+        }
+        else
+        {
+            std::cout << "Please enter 12 or 24: ";
+        }
+        std::cout << "Do you want a 12 or 24 hour clock? ";
+        std::cin >> type;
+        std::cout << std::endl;
+    }
+    std::string hourPrompt = "Enter the clock's hour: ";
+    int hour;
+    int min;
+    int sec;
+    if (type == 12)
+    {
+        hour = inputInt(hourPrompt, "The hour must be between 1 and 12.", numInRange, 1, 12);
+    }
+    else
+    {
+        hour = inputInt(hourPrompt, "The hour must be between 0 and 23.", numInRange, 0, 23);
+    }
+    min = inputInt("Enter the clock's minutes: ", "The minute must be between 0 and 59", numInRange, 0, 59);
+    sec = inputInt("Enter the clock's seconds: ", "The second must be between 0 and 59", numInRange, 0, 59);
+    partType part = partType::PM;
+    if (type == 12)
+    {
+        part = inputPartOfDay();
+    }
+    // return clockType(hour, min, sec, time, part);
+    clockPtr = new clockType(hour, min, sec, time, part);
+    return clockPtr;
 }
