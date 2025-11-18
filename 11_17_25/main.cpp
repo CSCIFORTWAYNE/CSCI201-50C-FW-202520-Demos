@@ -21,7 +21,7 @@ bool isAorB(int num, int a, int b);
 clockType *makeClock();
 partType inputPartOfDay();
 
-// create a file named input.txt with the inputs for 20 calls to makeClock;
+// M04 part a lab create a file named input.txt with the inputs for 20 calls to makeClock;
 
 int main()
 {
@@ -230,26 +230,7 @@ clockType *makeClock()
 {
     clockType *clockPtr = nullptr;
     // timeType time = inputTimeType();
-    int type;
-    std::cout << "Do you want a 12 or 24 hour clock? ";
-    std::cin >> type;
-    std::cout << std::endl;
-    // input validation loop goes here
-    while (!std::cin || (type != 12 && type != 24))
-    {
-
-        if (!std::cin)
-        {
-            resetStream();
-        }
-        else
-        {
-            std::cout << "Please enter 12 or 24: ";
-        }
-        std::cout << "Do you want a 12 or 24 hour clock? ";
-        std::cin >> type;
-        std::cout << std::endl;
-    }
+    int type = inputInt("Do you want a 12 or 24 hour clock? ", "Please enter 12 or 24: ", isAorB, 12, 24);
     std::string hourPrompt = "Enter the clock's hour: ";
     int hour;
     int min;
@@ -270,6 +251,13 @@ clockType *makeClock()
         part = inputPartOfDay();
     }
     // return clockType(hour, min, sec, time, part);
-    clockPtr = new clockType(hour, min, sec, time, part);
+    if (type == 12)
+    {
+        clockPtr = new TwelveHrClock(hour, min, sec, part);
+    }
+    else
+    {
+        clockPtr = new TwentyFourHrClock(hour, min, sec);
+    }
     return clockPtr;
 }
