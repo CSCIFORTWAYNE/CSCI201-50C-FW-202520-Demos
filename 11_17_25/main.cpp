@@ -20,6 +20,7 @@ bool numGTEQX(int num, int x, int = 0);
 bool isAorB(int num, int a, int b);
 clockType *makeClock();
 partType inputPartOfDay();
+void clockTick(clockType &clockToTick);
 
 // M04 part a lab create a file named input.txt with the inputs for 20 calls to makeClock;
 
@@ -34,10 +35,14 @@ int main()
     drink *d = new drink(coffee, hot, size, f, numFlavors);
     printProduct(p);
     printProduct(d);
-    TwentyFourHrClock c(12, 22, 21);
-    TwelveHrClock c2(1, 12, 12, partType::PM);
-    std::cout << c.toString() << std::endl;
-    std::cout << c2.toString() << std::endl;
+    clockType *c = makeClock();
+    clockType *c2 = makeClock();
+    std::cout << c->toString() << std::endl;
+    std::cout << c2->toString() << std::endl;
+    clockTick(*c);
+    clockTick(*c2);
+    std::cout << c->toString() << std::endl;
+    std::cout << c2->toString() << std::endl;
     //  std::cout << p.tostring() << std::endl;
     //  std::cout << d.tostring() << std::endl;
     delete[] f;
@@ -260,4 +265,10 @@ clockType *makeClock()
         clockPtr = new TwentyFourHrClock(hour, min, sec);
     }
     return clockPtr;
+}
+
+void clockTick(clockType &clockToTick)
+{
+    clockToTick.incrementHours();
+    std::cout << clockToTick.toString() << std::endl;
 }
