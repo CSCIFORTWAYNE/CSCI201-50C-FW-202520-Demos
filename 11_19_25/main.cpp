@@ -26,7 +26,7 @@ int main()
     const Vector list(10);
     y = list[9];
     clockType *c = makeClock();
-    clockType *c2 = makeClock();
+    // clockType *c2 = makeClock();
     /* std::cout << c->toString() << std::endl;
     std::cout << c2->toString() << std::endl;
     clockTick(*c);
@@ -50,11 +50,13 @@ int main()
     {
         std::cout << "different clock" << std::endl;
     }
-    /*  if (typeid(c) == typeid(TwelveHrClock))
-         if (c24 == static_cast<TwelveHrClock>(c))
-         {
-         }
-  */
+
+    if (typeid(*c) == typeid(TwelveHrClock))
+        if (c24 == *(static_cast<TwelveHrClock *>(c)))
+        {
+            std::cout << "clocks are the same" << std::endl;
+        }
+
     return 0;
 }
 
