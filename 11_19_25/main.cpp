@@ -1,0 +1,157 @@
+#include <iostream>
+#include <algorithm>
+#include <limits>
+#include "clock.h"
+
+int inputInt(std::string prompt, std::string err, bool (*valid)(int, int, int), int low = 0, int high = 0);
+bool numGT0(int num, int = 0, int = 0);
+bool numInRange(int num, int low, int high);
+bool numGTEQ0(int num, int = 0, int = 0);
+bool numGTEQX(int num, int x, int = 0);
+bool isAorB(int num, int a, int b);
+clockType *makeClock();
+partType inputPartOfDay();
+void clockTick(clockType &clockToTick);
+void resetStream();
+
+// M04 part a lab create a file named input.txt with the inputs for 20 calls to makeClock;
+
+int main()
+{
+
+    clockType *c = makeClock();
+    clockType *c2 = makeClock();
+    /* std::cout << c->toString() << std::endl;
+    std::cout << c2->toString() << std::endl;
+    clockTick(*c);
+    clockTick(*c2);
+    std::cout << c->toString() << std::endl;
+    std::cout << c2->toString() << std::endl; */
+    //  std::cout << p.tostring() << std::endl;
+    //  std::cout << d.tostring() << std::endl;
+    std::cout << typeid(c).name() << std::endl;
+    TwentyFourHrClock c24(12, 59, 59);
+    TwentyFourHrClock anotherClock(11, 59, 59);
+    // std::cout << c24 << std::endl;
+    int x, y, z;
+    x = y = z;
+    if (c24 == anotherClock)
+    {
+        std::cout << "Same clock" << std::endl;
+    }
+    else
+    {
+        std::cout << "different clock" << std::endl;
+    }
+    if (c24 == *c)
+    {
+    }
+
+    return 0;
+}
+
+int inputInt(std::string prompt, std::string err, bool (*valid)(int, int, int), int low, int high)
+{
+    int num;
+    std::cout << prompt;
+    std::cin >> num;
+    while (!std::cin || !valid(num, low, high))
+    {
+        if (!std::cin)
+        {
+            resetStream();
+        }
+
+        std::cout << err << std::endl;
+        std::cout << prompt;
+        std::cin >> num;
+    }
+    return num;
+}
+
+bool numInRange(int num, int low, int high)
+{
+    return low <= num && high >= num; // low <= num <= high; bad don't do this
+}
+
+bool numGTEQ0(int num, int, int)
+{
+    return num >= 0;
+}
+
+bool numGTEQX(int num, int x, int)
+{
+    return num >= x;
+}
+
+bool isAorB(int num, int a, int b)
+{
+    return num == a || num == b;
+}
+bool numGT0(int num, int, int)
+{
+    return num > 0;
+}
+
+void resetStream()
+{
+    std::cout << "You have entered non-numeric data! Please try again!" << std::endl;
+    std::cin.clear();
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+}
+
+partType inputPartOfDay()
+{
+    int partInt = -1;
+    std::ostringstream prompt;
+    prompt << "Is it " << std::endl;
+    for (int i = 0; i < 2; i++)
+    {
+        prompt << i + 1 << ". " << partToStr[i] << std::endl;
+    }
+    partInt = inputInt(prompt.str(), "Please enter 1 or 2.", isAorB, 1, 2);
+
+    return parts[partInt - 1];
+}
+
+clockType *makeClock()
+{
+    clockType *clockPtr = nullptr;
+    // timeType time = inputTimeType();
+    int type = inputInt("Do you want a 12 or 24 hour clock? ", "Please enter 12 or 24: ", isAorB, 12, 24);
+    std::string hourPrompt = "Enter the clock's hour: ";
+    int hour;
+    int min;
+    int sec;
+    if (type == 12)
+    {
+        hour = inputInt(hourPrompt, "The hour must be between 1 and 12.", numInRange, 1, 12);
+    }
+    else
+    {
+        hour = inputInt(hourPrompt, "The hour must be between 0 and 23.", numInRange, 0, 23);
+    }
+    min = inputInt("Enter the clock's minutes: ", "The minute must be between 0 and 59", numInRange, 0, 59);
+    sec = inputInt("Enter the clock's seconds: ", "The second must be between 0 and 59", numInRange, 0, 59);
+    partType part = partType::PM;
+    if (type == 12)
+    {
+        part = inputPartOfDay();
+    }
+    // return clockType(hour, min, sec, time, part);
+    if (type == 12)
+    {
+        clockPtr = new TwelveHrClock(hour, min, sec, part);
+    }
+    else
+    {
+        clockPtr = new TwentyFourHrClock(hour, min, sec);
+    }
+    return clockPtr;
+}
+
+void clockTick(clockType &clockToTick)
+{
+    clockToTick.incrementHours();
+    std::cout << clockToTick.toString() << std::endl;
+}
