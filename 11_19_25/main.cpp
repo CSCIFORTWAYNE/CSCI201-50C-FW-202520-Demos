@@ -2,25 +2,29 @@
 #include <algorithm>
 #include <limits>
 #include "clock.h"
+#include "movieTimes.h"
 
-int inputInt(std::string prompt, std::string err, bool (*valid)(int, int, int), int low = 0, int high = 0);
+/* int inputInt(std::string prompt, std::string err, bool (*valid)(int, int, int), int low = 0, int high = 0);
 bool numGT0(int num, int = 0, int = 0);
 bool numInRange(int num, int low, int high);
 bool numGTEQ0(int num, int = 0, int = 0);
 bool numGTEQX(int num, int x, int = 0);
 bool isAorB(int num, int a, int b);
-clockType *makeClock();
+
 partType inputPartOfDay();
 void clockTick(clockType &clockToTick);
-void resetStream();
+void resetStream(); */
 
 // M04 part a lab create a file named input.txt with the inputs for 20 calls to makeClock;
 
 int main()
 {
 
-    clockType *c = makeClock();
-    clockType *c2 = makeClock();
+    int x = 7;
+    int y = ++x;
+
+    // clockType *c = makeClock();
+    // clockType *c2 = makeClock();
     /* std::cout << c->toString() << std::endl;
     std::cout << c2->toString() << std::endl;
     clockTick(*c);
@@ -29,12 +33,13 @@ int main()
     std::cout << c2->toString() << std::endl; */
     //  std::cout << p.tostring() << std::endl;
     //  std::cout << d.tostring() << std::endl;
-    std::cout << typeid(c).name() << std::endl;
+    // std::cout << typeid(c).name() << std::endl;
     TwentyFourHrClock c24(12, 59, 59);
     TwentyFourHrClock anotherClock(11, 59, 59);
-    // std::cout << c24 << std::endl;
-    int x, y, z;
-    x = y = z;
+    std::cout << c24 << std::endl;
+    const clockType *temp = &(c24++);
+    delete temp;
+
     if (c24 == anotherClock)
     {
         std::cout << "Same clock" << std::endl;
@@ -43,14 +48,14 @@ int main()
     {
         std::cout << "different clock" << std::endl;
     }
-    if (c24 == *c)
+    // if (c24 == *c)
     {
     }
 
     return 0;
 }
 
-int inputInt(std::string prompt, std::string err, bool (*valid)(int, int, int), int low, int high)
+/* int inputInt(std::string prompt, std::string err, bool (*valid)(int, int, int), int low, int high)
 {
     int num;
     std::cout << prompt;
@@ -113,43 +118,7 @@ partType inputPartOfDay()
 
     return parts[partInt - 1];
 }
-
-clockType *makeClock()
-{
-    clockType *clockPtr = nullptr;
-    // timeType time = inputTimeType();
-    int type = inputInt("Do you want a 12 or 24 hour clock? ", "Please enter 12 or 24: ", isAorB, 12, 24);
-    std::string hourPrompt = "Enter the clock's hour: ";
-    int hour;
-    int min;
-    int sec;
-    if (type == 12)
-    {
-        hour = inputInt(hourPrompt, "The hour must be between 1 and 12.", numInRange, 1, 12);
-    }
-    else
-    {
-        hour = inputInt(hourPrompt, "The hour must be between 0 and 23.", numInRange, 0, 23);
-    }
-    min = inputInt("Enter the clock's minutes: ", "The minute must be between 0 and 59", numInRange, 0, 59);
-    sec = inputInt("Enter the clock's seconds: ", "The second must be between 0 and 59", numInRange, 0, 59);
-    partType part = partType::PM;
-    if (type == 12)
-    {
-        part = inputPartOfDay();
-    }
-    // return clockType(hour, min, sec, time, part);
-    if (type == 12)
-    {
-        clockPtr = new TwelveHrClock(hour, min, sec, part);
-    }
-    else
-    {
-        clockPtr = new TwentyFourHrClock(hour, min, sec);
-    }
-    return clockPtr;
-}
-
+ */
 void clockTick(clockType &clockToTick)
 {
     clockToTick.incrementHours();

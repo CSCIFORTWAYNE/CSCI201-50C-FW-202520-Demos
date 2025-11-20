@@ -120,6 +120,18 @@ std::string clockType::toString() const
     out << std::setw(2) << hr << ":" << std::setw(2) << min << ":" << std::setw(2) << sec;
     return out.str();
 }
+const clockType &clockType::operator++()
+{
+    incrementSeconds();
+    return *this;
+}
+
+const clockType &clockType::operator++(int u)
+{
+    clockType *temp = makeCopy();
+    incrementSeconds();
+    return *temp;
+}
 
 TwentyFourHrClock::TwentyFourHrClock(int h, int m, int s)
 {
@@ -174,6 +186,11 @@ bool TwentyFourHrClock::operator==(const clockType &rightHandClock) const
     {
     }
     return false;
+}
+
+clockType *TwentyFourHrClock::makeCopy()
+{
+    return new TwentyFourHrClock(*this);
 }
 
 TwelveHrClock::TwelveHrClock(int h, int m, int s, partType part)
@@ -256,6 +273,26 @@ std::string TwelveHrClock::toString() const
 bool TwelveHrClock::operator==(const clockType &) const
 {
     return false;
+}
+
+clockType *TwelveHrClock::makeCopy()
+{
+    return new TwelveHrClock(*this);
+}
+
+std::ostream &operator<<(std::ostream &out, const clockType &c)
+{
+    out << c.toString();
+    return out;
+}
+
+std::istream &operator>>(std::istream &in, clockType &c)
+{
+    in >> c.hr >> c.min >> c.sec;
+    c.validHr();
+    c.validMin();
+    c.validSec();
+    return in;
 }
 
 bool operator<(const TwentyFourHrClock &leftHandClock, const TwentyFourHrClock &rightHandClock)

@@ -35,6 +35,11 @@ public:
     virtual void setHour(int hour) = 0;
     // bool equalTime(const clockType &) const ;
     virtual bool operator==(const clockType &) const = 0;
+    virtual clockType *makeCopy() = 0;
+    const clockType &operator++();
+    const clockType &operator++(int);
+    friend std::ostream &operator<<(std::ostream &, const clockType &);
+    friend std::istream &operator>>(std::istream &, clockType &);
 
 protected:
     int hr;
@@ -54,6 +59,7 @@ public:
     bool operator==(const TwentyFourHrClock &rightHandClock) const;
     virtual bool operator==(const clockType &) const;
     friend bool operator<(const TwentyFourHrClock &leftHandClock, const TwentyFourHrClock &rightHandClock);
+    virtual clockType *makeCopy();
 };
 
 class TwelveHrClock : public clockType
@@ -70,6 +76,7 @@ public:
     partType getPartType() const;
     std::string toString() const;
     virtual bool operator==(const clockType &) const;
+    virtual clockType *makeCopy();
 
 private:
     partType partOfDay;
