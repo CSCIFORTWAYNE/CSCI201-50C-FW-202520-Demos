@@ -47,7 +47,7 @@ std::string MovieTimes::tostring() const
     out << "| " << std::setw(40) << this->title << " | " << std::setw(5) << this->rating << " | " << std::setw(3) << this->runtime << " mins | ";
     for (int i = 0; i < numTimes; i++)
     {
-        out << showTimes[i]->printTime() << " ";
+        out << *showTimes[i] << " ";
     }
 
     return out.str();
@@ -220,4 +220,5 @@ const MovieTimes &MovieTimes::operator=(const MovieTimes &rightHandMovie)
     {
         copyMovie(rightHandMovie);
     }
+    return *this;
 }

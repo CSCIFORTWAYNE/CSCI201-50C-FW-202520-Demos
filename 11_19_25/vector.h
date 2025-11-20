@@ -19,6 +19,8 @@ public:
     void push_back(int);
     void pop_back();
     void clear();
+    int &operator[](int index);
+    const int &operator[](int index) const;
 
 private:
     int *numbers;

@@ -1,6 +1,7 @@
 #include <iostream>
 #include <algorithm>
 #include <limits>
+#include "vector.h"
 #include "clock.h"
 #include "movieTimes.h"
 
@@ -15,16 +16,17 @@ partType inputPartOfDay();
 void clockTick(clockType &clockToTick);
 void resetStream(); */
 
-// M04 part a lab create a file named input.txt with the inputs for 20 calls to makeClock;
+// M04 part b lab add > >= < <= to the TwentyFourHrClock class
 
 int main()
 {
 
     int x = 7;
     int y = ++x;
-
-    // clockType *c = makeClock();
-    // clockType *c2 = makeClock();
+    const Vector list(10);
+    y = list[9];
+    clockType *c = makeClock();
+    clockType *c2 = makeClock();
     /* std::cout << c->toString() << std::endl;
     std::cout << c2->toString() << std::endl;
     clockTick(*c);
@@ -48,10 +50,11 @@ int main()
     {
         std::cout << "different clock" << std::endl;
     }
-    // if (c24 == *c)
-    {
-    }
-
+    /*  if (typeid(c) == typeid(TwelveHrClock))
+         if (c24 == static_cast<TwelveHrClock>(c))
+         {
+         }
+  */
     return 0;
 }
 

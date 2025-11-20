@@ -133,6 +133,21 @@ const clockType &clockType::operator++(int u)
     return *temp;
 }
 
+int clockType::getHour() const
+{
+    return hr;
+}
+
+int clockType::getMinute() const
+{
+    return min;
+}
+
+int clockType::getSecond() const
+{
+    return sec;
+}
+
 TwentyFourHrClock::TwentyFourHrClock(int h, int m, int s)
 {
     setTime(h, m, s);
@@ -175,22 +190,56 @@ void TwentyFourHrClock::setHour(int hour)
     }
 }
 
+TwentyFourHrClock::TwentyFourHrClock(const TwelveHrClock &clockToConvert)
+{
+    int standardHr = clockToConvert.getHour();
+    if (standardHr == 12)
+    {
+        standardHr = 0;
+    }
+    if (clockToConvert.getPartType() == partType::PM)
+    {
+        standardHr = standardHr + 12;
+    }
+    hr = standardHr;
+    min = clockToConvert.getMinute();
+    sec = clockToConvert.getSecond();
+}
+
+TwentyFourHrClock::TwentyFourHrClock(const clockType &clockToConvert)
+{
+    hr = clockToConvert.getHour();
+    min = clockToConvert.getMinute();
+    sec = clockToConvert.getSecond();
+}
+
 bool TwentyFourHrClock::operator==(const TwentyFourHrClock &rightHandClock) const
 {
     return this->hr == rightHandClock.hr && this->min == rightHandClock.min && this->sec == rightHandClock.sec;
 }
 
-bool TwentyFourHrClock::operator==(const clockType &rightHandClock) const
+bool TwentyFourHrClock::operator!=(const TwentyFourHrClock &rightHandClock) const
+{
+    return !(*this == rightHandClock);
+}
+
+/* bool TwentyFourHrClock::operator==(const clockType &rightHandClock) const
 {
     if (typeid(*this) == typeid(TwentyFourHrClock))
     {
+
     }
     return false;
-}
+} */
 
 clockType *TwentyFourHrClock::makeCopy()
 {
     return new TwentyFourHrClock(*this);
+}
+
+const clockType &TwentyFourHrClock::operator*()
+{
+    return *this;
 }
 
 TwelveHrClock::TwelveHrClock(int h, int m, int s, partType part)
@@ -270,14 +319,20 @@ std::string TwelveHrClock::toString() const
     return output;
 }
 
-bool TwelveHrClock::operator==(const clockType &) const
+/* bool TwelveHrClock::operator==(const clockType &) const
 {
     return false;
-}
+} */
 
 clockType *TwelveHrClock::makeCopy()
 {
     return new TwelveHrClock(*this);
+}
+
+const clockType &TwelveHrClock::operator*()
+{
+    clockType *returnClock = new TwentyFourHrClock(*this);
+    return *returnClock;
 }
 
 std::ostream &operator<<(std::ostream &out, const clockType &c)

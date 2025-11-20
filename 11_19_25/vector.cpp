@@ -67,6 +67,11 @@ void Vector::shrink_to_fit()
 
 int Vector::at(int position)
 {
+    if (position >= maxSize)
+    {
+        // error
+        return 0;
+    }
     return numbers[position];
 }
 
@@ -129,4 +134,14 @@ void Vector::copyVector(const Vector &otherVector)
     {
         this->numbers[i] = otherVector.numbers[i];
     }
+}
+
+int &Vector::operator[](int index)
+{
+    return numbers[index];
+}
+
+const int &Vector::operator[](int index) const
+{
+    return numbers[index];
 }
