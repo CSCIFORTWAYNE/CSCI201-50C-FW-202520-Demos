@@ -6,7 +6,7 @@
 #include <iomanip>
 #include <typeinfo>
 
-enum class partType
+enum partType
 {
     AM,
     PM
@@ -88,6 +88,7 @@ public:
     // virtual bool operator==(const clockType &) const;
     bool operator<=(const TwelveHrClock &) const { return true; };
     bool operator>=(const TwelveHrClock &) const { return true; };
+    bool operator>(const TwelveHrClock &) const { return true; };
     virtual clockType *makeCopy();
     virtual const clockType &operator*();
 
