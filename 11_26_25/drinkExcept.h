@@ -13,4 +13,13 @@ public:
     baseException(std::string msg);
 };
 
+struct flavorException : public std::runtime_error
+{
+    flavorException(std::string msg);
+};
+struct duplicateFlavorException : public flavorException
+{
+    duplicateFlavorException(std::string msg);
+};
+
 #endif

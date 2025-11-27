@@ -66,10 +66,14 @@ public:
     std::string getFlavor() const;
     double getPrice() const;
     void setBase(baseType);
+    void setBase(std::string);
     void setTemperature(tempType);
+    void setTemperature(std::string);
     void setSize(sizeType);
+    void setSize(std::string);
     void setDairy(std::string);
     void addFlavor(flavType);
+    void addFlavor(std::string);
     void removeFlavor(flavType);
     void removeAllFlavor();
     friend std::ostream &operator<<(std::ostream &, const drink &);

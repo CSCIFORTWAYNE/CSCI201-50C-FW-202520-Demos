@@ -216,14 +216,58 @@ std::ostream &operator<<(std::ostream &out, const drink &d)
     return out;
 }
 
-drink::drink(std::string base, std::string temp, std::string size, std::string dairy)
+drink::drink(std::string b, std::string temp, std::string s, std::string dairy)
 {
-    if (!strToSize.count(size))
+    setBase(b);
+    setSize(s);
+    setTemperature(temp);
+    setDairy(dairy);
+}
+
+void drink::setBase(std::string b)
+{
+    try
     {
-        throw sizeException(size);
+        std::string bcpy = b;
+        transform(b.begin(), b.end(), bcpy.begin(), ::toupper);
+        this->base = strToBase.at(bcpy);
     }
-    if (!strToBase.count(base))
+    catch (std::out_of_range e)
     {
-        throw baseException(base);
+
+        throw baseException(b);
+    }
+}
+void drink::setTemperature(std::string t)
+{
+}
+void drink::setSize(std::string s)
+{
+    try
+    {
+        std::string scpy = s;
+        transform(s.begin(), s.end(), scpy.begin(), ::toupper);
+        this->size = strToSize.at(scpy);
+    }
+    catch (std::out_of_range e)
+    {
+        throw sizeException(s);
+    }
+}
+
+void drink::addFlavor(std::string f)
+{
+    transform(f.begin(), f.end(), f.begin(), ::tolower);
+    try
+    {
+        auto p = flavors.insert(strToFlav.at(f));
+        if (!p.second)
+        {
+            throw duplicateFlavorException(f);
+        }
+    }
+    catch (std::out_of_range e)
+    {
+        throw flavorException(f);
     }
 }
