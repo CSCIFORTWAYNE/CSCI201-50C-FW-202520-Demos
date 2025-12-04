@@ -69,6 +69,18 @@ int main(int argc, char *argv[])
             }
             inet_ntop(their_addr.ss_family, (struct sockaddr_in *)&their_addr, s, sizeof(s));
             std::cout << "server: got connection from " << s << std::endl;
+
+            uint32_t val;
+            rv = recv(clientfd, &val, sizeof(val), 0);
+            if (rv == sizeof(val))
+            {
+                val = ntohl(val);
+                std::cout << "receiving: " << val << std::endl;
+                val++;
+                val = htonl(val);
+                rv = send(clientfd, &val, sizeof(val), 0);
+            }
+            close(clientfd);
         }
     }
     catch (const std::runtime_error &e)

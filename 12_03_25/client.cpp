@@ -71,6 +71,15 @@ int main(int argc, char *argv[])
             close(sock);
             throw std::logic_error("Client is unable to send");
         }
+        int numbytes = recv(sock, &val, sizeof(val), 0);
+        if (numbytes == -1)
+        {
+            close(sock);
+            throw std::logic_error("Client is unable to receive.");
+        }
+        val = ntohl(val);
+        std::cout << "Server Response: " << val << std::endl;
+        close(sock);
     }
     catch (const std::runtime_error &e)
     {
