@@ -12,14 +12,8 @@
 #include <unistd.h>
 #include <errno.h>
 #include <bits/stdc++.h>
-#include "suit.h"
 
 const int BACKLOG = 10;
-std::string getFormatStr(suitType suit);
-
-// M06 part b lab change the suit colors
-// https://en.wikipedia.org/wiki/ANSI_escape_code
-// example with other colors https://github.com/CSCIFORTWAYNE/CSCI101-0CC-FA22-Demos/blob/master/11_23_22/main.cpp
 
 int main(int argc, char *argv[])
 {
@@ -82,11 +76,9 @@ int main(int argc, char *argv[])
             {
                 val = ntohl(val);
                 std::cout << "receiving: " << val << std::endl;
-                suitType suit = static_cast<suitType>(val);
-                std::string response = getFormatStr(suit);
-                val = htonl(response.length());
+                val++;
+                val = htonl(val);
                 rv = send(clientfd, &val, sizeof(val), 0);
-                rv = send(clientfd, response.c_str(), response.length(), 0);
             }
             close(clientfd);
         }
@@ -101,13 +93,4 @@ int main(int argc, char *argv[])
     }
 
     return 0;
-}
-
-std::string getFormatStr(suitType suit)
-{
-    static std::map<suitType, std::string> suitColors = {{suitType::HEARTS, "\033[1m\033[107;31m"},
-                                                         {suitType::DIAMONDS, "\033[1m\033[107;31m"},
-                                                         {suitType::CLUBS, "\033[1m\033[107;30m"},
-                                                         {suitType::SPADES, "\033[1m\033[107;30m"}};
-    return suitColors[suit];
 }

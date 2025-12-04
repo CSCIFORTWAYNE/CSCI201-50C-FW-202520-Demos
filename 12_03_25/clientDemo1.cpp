@@ -13,7 +13,6 @@
 #include <unistd.h>
 #include <errno.h>
 #include <bits/stdc++.h>
-#include "suit.h"
 
 void resetStream();
 
@@ -26,16 +25,6 @@ int main(int argc, char *argv[])
     memset(&hints, 0, sizeof(hints));
     hints.ai_family = AF_INET;
     hints.ai_socktype = SOCK_STREAM;
-    std::map<suitType, std::string> suitSymbols;
-    suitSymbols[suitType::CLUBS] = "♣";
-    suitSymbols[suitType::DIAMONDS] = "♦";
-    suitSymbols[suitType::HEARTS] = "♥";
-    suitSymbols[suitType::SPADES] = "♠";
-    std::map<int, suitType> suitNumbers;
-    suitNumbers[1] = suitType::HEARTS;
-    suitNumbers[2] = suitType::SPADES;
-    suitNumbers[3] = suitType::CLUBS;
-    suitNumbers[4] = suitType::DIAMONDS;
 
     if (argc != 2)
     {
@@ -66,29 +55,15 @@ int main(int argc, char *argv[])
         inet_ntop(servInfo->ai_family, (struct sockaddr_in *)servInfo->ai_addr, s, sizeof(s));
         std::cout << "client: connected to " << s << std::endl;
         int input = 0;
-        std::cout << "Pick a suit: ";
-        int i = 1;
-        for (auto it = suitSymbols.begin(); it != suitSymbols.end(); ++it)
-        {
-            std::cout << i++ << ": " << it->second << std::endl;
-        }
+        std::cout << "Enter the starting number: ";
         std::cin >> input;
-        while (!std::cin || input < 1 || input > 4)
+        while (!std::cin)
         {
-            if (!std::cin)
-            {
-                resetStream();
-            }
-            i = 1;
-            std::cout << "Pick a suit: ";
-            for (auto it = suitSymbols.begin(); it != suitSymbols.end(); ++it)
-            {
-                std::cout << i++ << ": " << it->second << std::endl;
-            }
+            resetStream();
+            std::cout << "Enter the starting number: ";
             std::cin >> input;
         }
-        suitType suit = suitNumbers[input];
-        uint32_t val = static_cast<uint32_t>(suit);
+        uint32_t val = static_cast<uint32_t>(input);
         val = htonl(val);
         rv = send(sock, &val, sizeof(val), 0);
         if (rv == -1)
@@ -103,14 +78,7 @@ int main(int argc, char *argv[])
             throw std::logic_error("Client is unable to receive.");
         }
         val = ntohl(val);
-        char *buffer = new char[val + 1];
-        numbytes = recv(sock, buffer, val, 0);
-        if (numbytes == val)
-        {
-            buffer[val] = '\0';
-            std::cout << "Server Response: " << buffer << "A" << suitSymbols[suit] << std::endl;
-        }
-
+        std::cout << "Server Response: " << val << std::endl;
         close(sock);
     }
     catch (const std::runtime_error &e)
