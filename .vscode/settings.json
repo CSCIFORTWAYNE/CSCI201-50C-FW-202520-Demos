@@ -85,5 +85,6 @@
         "typeindex": "cpp",
         "valarray": "cpp",
         "variant": "cpp"
-    }
+    },
+    "cmake.sourceDirectory": "/home/avenable11/CSCI201-50C-FW-202520-Demos/12_03_25"
 }
