@@ -54,6 +54,23 @@ int main(int argc, char *argv[])
         }
         inet_ntop(servInfo->ai_family, (struct sockaddr_in *)servInfo->ai_addr, s, sizeof(s));
         std::cout << "client: connected to " << s << std::endl;
+        int input = 0;
+        std::cout << "Enter the starting number: ";
+        std::cin >> input;
+        while (!std::cin)
+        {
+            resetStream();
+            std::cout << "Enter the starting number: ";
+            std::cin >> input;
+        }
+        uint32_t val = static_cast<uint32_t>(input);
+        val = htonl(val);
+        rv = send(sock, &val, sizeof(val), 0);
+        if (rv == -1)
+        {
+            close(sock);
+            throw std::logic_error("Client is unable to send");
+        }
     }
     catch (const std::runtime_error &e)
     {

@@ -24,6 +24,9 @@ int main(int argc, char *argv[])
     addrinfo *p;
     int rv;      // return value
     int yes = 1; // reuse port
+    socklen_t sin_size;
+    sockaddr_storage their_addr;
+    char s[INET_ADDRSTRLEN];
 
     memset(&hints, 0, sizeof(hints));
     hints.ai_family = AF_INET;       // IPv4
@@ -58,6 +61,14 @@ int main(int argc, char *argv[])
         std::cout << "server: waiting for connections..." << std::endl;
         while (true)
         {
+            sin_size = sizeof(their_addr);
+            clientfd = accept(sockfd, (sockaddr *)&their_addr, &sin_size);
+            if (clientfd == -1)
+            {
+                throw std::invalid_argument("Error accpeting client");
+            }
+            inet_ntop(their_addr.ss_family, (struct sockaddr_in *)&their_addr, s, sizeof(s));
+            std::cout << "server: got connection from " << s << std::endl;
         }
     }
     catch (const std::runtime_error &e)
