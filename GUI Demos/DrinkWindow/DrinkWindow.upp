@@ -8,6 +8,7 @@ file
 	drinkExcept.cpp,
 	drinkExcept.h,
 	DrinkWindow.h,
+	DrinkWindow.cpp,
 	main.cpp,
 	DrinkWindow.lay;
 

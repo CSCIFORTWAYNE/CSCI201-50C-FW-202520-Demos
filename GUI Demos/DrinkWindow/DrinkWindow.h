@@ -7,10 +7,16 @@ using namespace Upp;
 
 #define LAYOUTFILE <DrinkWindow/DrinkWindow.lay>
 #include <CtrlCore/lay.h>
+#include <AutoScroller/AutoScroller.h>
+#include "drink.h"
 
-class DrinkWindow : public WithDrinkWindowLayout<TopWindow> {
+class DrinkWindow : public WithMainAppWindow<TopWindow> {
 public:
 	DrinkWindow();
+private:
+	AutoScroller scroller;
+	WithDrinkWindowLayout<ParentCtrl> scroller_view;
+	Option flavor[NUM_FLAV];
 };
 
 #endif
