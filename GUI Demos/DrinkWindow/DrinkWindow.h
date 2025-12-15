@@ -4,6 +4,17 @@
 #include <CtrlLib/CtrlLib.h>
 
 using namespace Upp;
+//try to add/demo
+//slider
+//progress bar
+//column list
+//tab
+//color
+//file selector
+//Edit Int Spin
+//splittter
+//calendar ctrl
+
 
 #define LAYOUTFILE <DrinkWindow/DrinkWindow.lay>
 #include <CtrlCore/lay.h>
