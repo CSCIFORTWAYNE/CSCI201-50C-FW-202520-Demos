@@ -78,6 +78,9 @@ public:
     void removeAllFlavor();
     friend std::ostream &operator<<(std::ostream &, const drink &);
     static std::map<baseType, std::string> baseToStr;
+    static std::map<int, baseType> intToBase;
+    static std::map<int, tempType> intToTemp;
+    static std::map<int, sizeType> intToSize;
     static std::map<std::string, baseType> strToBase;
     static std::map<sizeType, std::string> sizeToStr;
     static std::map<std::string, sizeType> strToSize;

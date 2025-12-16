@@ -28,6 +28,7 @@ private:
 	AutoScroller scroller;
 	WithDrinkWindowLayout<ParentCtrl> scroller_view;
 	Option flavor[NUM_FLAV];
+	drink d;
 };
 
 #endif

@@ -1,6 +1,7 @@
 #ifndef DRINKE_H
 #define DRINKE_H
 #include <stdexcept>
+#include <string>
 
 class sizeException : public std::runtime_error
 {

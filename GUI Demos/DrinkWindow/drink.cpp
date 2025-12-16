@@ -45,6 +45,9 @@ std::map<std::string, flavType> drink::strToFlav = {{"hazelnut", HAZELNUT},
                                                     {"strawberry", STRAWBERRY},
                                                     {"peppermint", PEPPERMINT},
                                                     {"mango", MANGO}};
+std::map<int, baseType> drink::intToBase = {{0,COFFEE},{1,TEA},{2,CREAM}};
+std::map<int, tempType> drink::intToTemp = {{0,HOT},{1,ICE},{2,BLEND}};
+std::map<int, sizeType> drink::intToSize = {{0,SMALL},{1,MED},{2,LARGE}};
 
 drink::drink(baseType b, tempType t, sizeType s, std::string d)
 {

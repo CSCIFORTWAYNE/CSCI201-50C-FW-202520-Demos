@@ -34,5 +34,25 @@ DrinkWindow::DrinkWindow()
 		i++;
 	}
 	
+	scroller_view.base << [&, this]
+	{
+		baseType b = drink::intToBase[(int)scroller_view.base];
+		d.setBase(b);
+	};
 	
+	scroller_view.temp << [&, this]
+	{
+		tempType t = drink::intToTemp[(int)scroller_view.temp];
+		d.setTemperature(t);
+	};
+	scroller_view.size << [&,this]
+	{
+		sizeType s = drink::intToSize[scroller_view.size.GetData()];
+		d.setSize(s);
+		
+	};
 }
+
+
+
+
