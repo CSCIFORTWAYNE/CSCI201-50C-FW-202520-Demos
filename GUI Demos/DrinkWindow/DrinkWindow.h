@@ -10,9 +10,9 @@ using namespace Upp;
 //column list
 //tab
 //color
-//file selector
-//Edit Int Spin
-//splittter
+//file selector //
+//Edit Int Spin //
+//splitter
 //calendar ctrl
 
 
@@ -20,15 +20,27 @@ using namespace Upp;
 #include <CtrlCore/lay.h>
 #include <AutoScroller/AutoScroller.h>
 #include "drink.h"
+#include <vector>
+#include <sstream>
+#include <iomanip>
+#include <algorithm>
+#include <string>
+#include <fstream>
 
 class DrinkWindow : public WithMainAppWindow<TopWindow> {
 public:
 	DrinkWindow();
+	void checkPrice();
+	void handleFlavor(int i);
+	void saveOrder();
 private:
 	AutoScroller scroller;
 	WithDrinkWindowLayout<ParentCtrl> scroller_view;
 	Option flavor[NUM_FLAV];
 	drink d;
+	std::vector<drink> order;
+	Button writeBtn;
+	OptionTree optree;
 };
 
 #endif
